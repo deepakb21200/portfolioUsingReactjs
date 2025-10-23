@@ -164,15 +164,10 @@ import fetch from "node-fetch"; // Node 18+ has global fetch; else install node-
 dotenv.config();
 const app = express();
 // app.use(cors({ origin: "https://deepakbisht-com.onrender.com" })); 
-app.use(cors({
-  origin: "https://deepakbisht-com.onrender.com", // tumhara frontend URL
-  methods: ["GET", "POST", "OPTIONS"],
-  allowedHeaders: ["Content-Type"]
-}));
 
+app.use(cors())
 // Optional: preflight requests ke liye
-app.options("/*", cors());
-
+ 
 app.use(express.json());
 
 app.post("/contact", async (req, res) => {
