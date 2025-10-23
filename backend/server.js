@@ -155,57 +155,48 @@
 
 
 //try
+
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import fetch from "node-fetch"; // agar Node < 18 hai
+import fetch from "node-fetch"; // Node 18+ has global fetch; else install node-fetch
 
 dotenv.config();
-
 const app = express();
-
-app.use(cors({
-  origin: "https://deepakbisht-com.onrender.com",
-}));
-
+app.use(cors({ origin: "https://deepakbisht-com.onrender.com" })); // adjust origins
 app.use(express.json());
 
 app.post("/contact", async (req, res) => {
   const { name, email, subject, message } = req.body;
+  if (!name || !email || !message) return res.status(400).json({ success:false, message:"Missing fields" });
 
   try {
     const payload = {
       service_id: process.env.EMAILJS_SERVICE_ID,
       template_id: process.env.EMAILJS_TEMPLATE_ID,
       user_id: process.env.EMAILJS_PUBLIC_KEY,
-      template_params: {
-        name,
-        email,
-        subject,
-        message
-      },
+      template_params: { name, email, subject, message }
     };
 
     const response = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
     });
 
     if (response.ok) {
-      res.status(200).json({ success: true, message: "Message sent successfully!" });
+      return res.status(200).json({ success:true, message:"Message sent successfully!" });
     } else {
-      const errorText = await response.text();
-      console.error("EmailJS error:", errorText);
-      res.status(500).json({ success: false, message: "Failed to send message via EmailJS." });
+      const errText = await response.text();
+      console.error("EmailJS error:", errText);
+      return res.status(500).json({ success:false, message:"Failed to send message via EmailJS." });
     }
-  } catch (error) {
-    console.error("Server error:", error);
-    res.status(500).json({ success: false, message: "Server error." });
+  } catch (err) {
+    console.error("Server error:", err);
+    return res.status(500).json({ success:false, message:"Server error." });
   }
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server running on ${PORT}`));
+
