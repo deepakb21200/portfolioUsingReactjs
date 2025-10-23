@@ -87,7 +87,7 @@ function Contact() {
     return isValid;
   };
 
-const handleSubmit = async (e) => {
+const handleSubmit = (e) => {
   e.preventDefault();
 
   if (!validateForm()) {
@@ -95,31 +95,29 @@ const handleSubmit = async (e) => {
     return;
   }
 
-  try {
-    const response = await fetch("https://dkbisht.onrender.com/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: formData.name,
-        email: formData.email,
-        subject: formData.subject || "New Contact Form Submission",
-        message: formData.message,
-      }),
-    });
-
-    const result = await response.json();
-
-    if (response.ok) {
-      setStatus(result.message);
+  emailjs.send(
+    'service_ph644lo',
+    'template_u61ftdt',
+    {
+      name: formData.name,
+      email: formData.email,
+      subject: formData.subject || "New Contact Form Submission",
+      message: formData.message,
+    },
+    '8TNG3i0tCyTFgmiTV' // frontend public key
+  )
+  .then(
+    (result) => {
+      console.log(result.text);
+      setStatus("Message sent successfully!");
       setFormData({ name: "", email: "", subject: "", message: "" });
       setErrors({});
-    } else {
-      setStatus(result.message || "Failed to send message. Try again.");
+    },
+    (error) => {
+      console.error(error.text);
+      setStatus("Failed to send message. Please try again.");
     }
-  } catch (error) {
-    console.error("Error sending message:", error);
-    setStatus("Server error. Please try again.");
-  }
+  );
 };
 
 
