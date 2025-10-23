@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Mail, MapPin, Send } from "lucide-react"; // icons same rakhe hain
 import { useState } from "react";
 import "../CSS/contact.css";
+import emailjs from "emailjs-com";
 
 
 // Variants
@@ -86,7 +87,7 @@ function Contact() {
     return isValid;
   };
 
-const handleSubmit = async (e) => {
+const handleSubmit = (e) => {
   e.preventDefault();
 
   // 1️⃣ Validate form
@@ -95,43 +96,31 @@ const handleSubmit = async (e) => {
     return;
   }
 
-  // 2️⃣ Prepare payload
-  const payload = {
-    name: formData.name,
-    email: formData.email,
-    subject: formData.subject || "New Contact Form Submission",
-    message: formData.message,
-  };
-
-  try {
-    // 3️⃣ Call backend
-  const response = await fetch("https://dkbisht.onrender.com/contact", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify(payload),
-});
-
-
-    // 4️⃣ Parse result
-    const result = await response.json();
-    console.log(result);
-
-    // 5️⃣ Check response status
-    if (response.ok) {
+  // 2️⃣ Send email via EmailJS
+  emailjs.send(
+    "service_ph644lo",   // Your EmailJS Service ID
+    "service_ph644lo",   // Your EmailJS Template ID
+    {
+      name: formData.name,
+      email: formData.email,
+      subject: formData.subject || "New Contact Form Submission",
+      message: formData.message,
+    },
+    "service_ph644lo"    // Your EmailJS Public Key
+  )
+  .then(
+    (result) => {
+      console.log(result.text);
       setStatus("Message sent successfully!");
       setFormData({ name: "", email: "", subject: "", message: "" });
       setErrors({});
-    } else {
-      setStatus(result.message || "There was an error sending your message.");
+    },
+    (error) => {
+      console.error(error.text);
+      setStatus("Failed to send message. Please try again.");
     }
-
-  } catch (error) {
-    // 6️⃣ Network or unexpected errors
-    console.error("Error sending message:", error);
-    setStatus("An error occurred. Please try again.");
-  }
+  );
 };
-
 
 
 

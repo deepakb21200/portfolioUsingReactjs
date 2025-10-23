@@ -158,7 +158,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import nodemailer from "nodemailer";
+import fetch from "node-fetch"; // agar Node < 18 hai
 
 dotenv.config();
 
@@ -170,37 +170,40 @@ app.use(cors({
 
 app.use(express.json());
 
-// ✅ Email transporter setup
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
-
-// ✅ Contact route
 app.post("/contact", async (req, res) => {
   const { name, email, subject, message } = req.body;
 
   try {
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER, // apne hi Gmail pe receive hoga
-      subject: subject || "New Contact Form Message",
-      text: `
-Name: ${name}
-Email: ${email}
-Message: ${message}
-      `,
+    const payload = {
+      service_id: process.env.EMAILJS_SERVICE_ID,
+      template_id: process.env.EMAILJS_TEMPLATE_ID,
+      user_id: process.env.EMAILJS_PUBLIC_KEY,
+      template_params: {
+        name,
+        email,
+        subject,
+        message
+      },
     };
 
-    await transporter.sendMail(mailOptions);
+    const response = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
 
-    res.status(200).json({ success: true, message: "Message sent successfully!" });
+    if (response.ok) {
+      res.status(200).json({ success: true, message: "Message sent successfully!" });
+    } else {
+      const errorText = await response.text();
+      console.error("EmailJS error:", errorText);
+      res.status(500).json({ success: false, message: "Failed to send message via EmailJS." });
+    }
   } catch (error) {
-    console.error("Mail send error:", error);
-    res.status(500).json({ success: false, message: "Failed to send message." });
+    console.error("Server error:", error);
+    res.status(500).json({ success: false, message: "Server error." });
   }
 });
 
