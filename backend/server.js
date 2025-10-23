@@ -171,7 +171,8 @@ app.use(cors({
 }));
 
 // Optional: preflight requests ke liye
-app.options("*", cors());
+app.options("/*", cors());
+
 app.use(express.json());
 
 app.post("/contact", async (req, res) => {
