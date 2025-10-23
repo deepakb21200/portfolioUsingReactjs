@@ -162,7 +162,7 @@ dotenv.config();
 const app = express();
 
 app.use(cors({
-  origin: "https://portfolio-using-reactjs-3d65.vercel.app"
+  origin: "https://deepakbisht-com-0e8g.onrender.com/"
 }));
 
 app.use(express.json());
