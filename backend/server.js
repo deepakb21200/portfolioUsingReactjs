@@ -151,51 +151,63 @@
 
 
 
+
+
+
+//try
+
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import FormData from "form-data";      // npm install form-data
-import fetch from "node-fetch";        // npm install node-fetch (agar Node 18+ global fetch nahi)
+import nodemailer from "nodemailer";
 
 dotenv.config();
-
 const app = express();
 
 app.use(cors({
-  origin: "https://deepakbisht-com.onrender.com"
+  origin: "https://deepakbisht-com.onrender.com",  // apne frontend ka domain
 }));
-
- 
 app.use(express.json());
 
-// Single /contact route
+// ✉️ Contact route
 app.post("/contact", async (req, res) => {
   const { name, email, subject, message } = req.body;
 
-  console.log("Request received:", req.body); // Debug
+  if (!name || !email || !message) {
+    return res.status(400).json({ success: false, message: "All fields are required" });
+  }
 
   try {
-    const formData = new FormData();
-    formData.append("access_key", process.env.WEB3FORMS_KEY);
-    formData.append("name", name);
-    formData.append("email", email);
-    formData.append("subject", subject || "New Contact Form Submission");
-    formData.append("message", message);
-
-    const response = await fetch("https://api.web3forms.com/submit", {
-      method: "POST",
-      body: formData,
-      headers: formData.getHeaders(),   // Node FormData ke liye zaruri
+    // ✅ 1. Mail transporter setup
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
     });
 
-    const result = await response.json();
+    // ✅ 2. Email options
+    const mailOptions = {
+      from: `"${name}" <${email}>`,
+      to: process.env.EMAIL_USER,
+      subject: subject || "New Contact Form Submission",
+      text: `
+        Name: ${name}
+        Email: ${email}
+        Message: ${message}
+      `,
+    };
 
-    if (response.ok) res.status(200).json(result);
-    else res.status(500).json(result);
+    // ✅ 3. Send mail
+    await transporter.sendMail(mailOptions);
+
+    res.status(200).json({ success: true, message: "Message sent successfully!" });
   } catch (error) {
-    res.status(500).json({ message: "Error sending message.", error });
+    console.error("Error sending email:", error);
+    res.status(500).json({ success: false, message: "Failed to send message." });
   }
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
