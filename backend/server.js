@@ -163,23 +163,28 @@ import dotenv from "dotenv";
 dotenv.config();
 const app = express();
 
-// Proper CORS configuration
+// ✅ Global CORS config
 app.use(cors({
-  origin: "https://deepakbisht-com.onrender.com", // tumhare frontend URL
-  methods: ["GET", "POST", "OPTIONS"],           // allow these methods
-  allowedHeaders: ["Content-Type"],              // allow these headers
+  origin: "https://deepakbisht-com.onrender.com",
+  methods: ["GET","POST","PUT","DELETE","OPTIONS"],
+  allowedHeaders: ["Content-Type"]
 }));
-
-// Preflight OPTIONS request handle karna
-app.options("*", cors());
 
 app.use(express.json());
 
 // Contact endpoint
 app.post("/contact", async (req, res) => {
   const { name, email, subject, message } = req.body;
-  // validation etc.
-  res.json({ success:true, message:"Message sent!" });
+  if (!name || !email || !message)
+    return res.status(400).json({ success:false, message:"Missing fields" });
+
+  try {
+    // EmailJS payload send logic
+    res.json({ success:true, message:"Message sent!" });
+  } catch(err){
+    res.status(500).json({ success:false, message:"Server error" });
+  }
 });
+
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on ${PORT}`));
+app.listen(PORT, ()=> console.log(`Server running on ${PORT}`));
