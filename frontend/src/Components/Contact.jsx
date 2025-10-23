@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Mail, MapPin, Send } from "lucide-react"; // icons same rakhe hain
 import { useState } from "react";
 import "../CSS/contact.css";
-import emailjs from "emailjs-com";
+import emailjs from "@emailjs/browser";
 
 
 // Variants
@@ -87,7 +87,7 @@ function Contact() {
     return isValid;
   };
 
-const handleSubmit = (e) => {
+const handleSubmit = async (e) => {
   e.preventDefault();
 
   if (!validateForm()) {
@@ -95,30 +95,33 @@ const handleSubmit = (e) => {
     return;
   }
 
-  emailjs.send(
-    process.env.REACT_APP_EMAILJS_SERVICE_ID,
-    process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
-    {
-      name: formData.name,
-      email: formData.email,
-      subject: formData.subject || "New Contact Form Submission",
-      message: formData.message,
-    },
-    process.env.REACT_APP_EMAILJS_PUBLIC_KEY
-  )
-  .then(
-    (result) => {
-      console.log(result.text);
-      setStatus("Message sent successfully!");
+  try {
+    const response = await fetch("https://your-backend-url.onrender.com/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: formData.name,
+        email: formData.email,
+        subject: formData.subject || "New Contact Form Submission",
+        message: formData.message,
+      }),
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      setStatus(result.message);
       setFormData({ name: "", email: "", subject: "", message: "" });
       setErrors({});
-    },
-    (error) => {
-      console.error(error.text);
-      setStatus("Failed to send message. Please try again.");
+    } else {
+      setStatus(result.message || "Failed to send message. Try again.");
     }
-  );
+  } catch (error) {
+    console.error("Error sending message:", error);
+    setStatus("Server error. Please try again.");
+  }
 };
+
 
 
 
