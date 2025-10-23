@@ -155,25 +155,24 @@
 
 
 //try
-
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
- 
+import fetch from "node-fetch"; // Node <18 me install karo
 
 dotenv.config();
 const app = express();
 
-// ✅ CORS middleware
+// ✅ Global CORS config
 app.use(cors({
-  origin: "https://deepakbisht-com.onrender.com", // frontend URL
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  origin: "https://deepakbisht-com.onrender.com", // tumhara frontend URL
+  methods: ["GET", "POST"],
   allowedHeaders: ["Content-Type"]
 }));
 
 app.use(express.json());
 
-// ✅ Contact endpoint
+// Contact endpoint
 app.post("/contact", async (req, res) => {
   const { name, email, subject, message } = req.body;
 
@@ -182,8 +181,6 @@ app.post("/contact", async (req, res) => {
   }
 
   try {
-
-
     const payload = {
       service_id: process.env.EMAILJS_SERVICE_ID,
       template_id: process.env.EMAILJS_TEMPLATE_ID,
@@ -196,16 +193,13 @@ app.post("/contact", async (req, res) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
-        console.log("Sending email with:", payload);
-   const text = await response.text();
-  console.log("EmailJS Response:, if", text);
-    
+
     if (response.ok) {
       return res.status(200).json({ success: true, message: "Message sent successfully!" });
     } else {
       const errText = await response.text();
       console.error("EmailJS error:", errText);
-      return res.status(500).json({ success: false, message: "Failed to send message via EmailJS" });
+      return res.status(500).json({ success: false, message: "Failed to send email" });
     }
   } catch (err) {
     console.error("Server error:", err);
