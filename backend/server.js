@@ -162,9 +162,10 @@ dotenv.config();
 const app = express();
 
 app.use(cors({
-  origin: "https://deepakbisht-com-0e8g.onrender.com/"
+  origin: "https://deepakbisht-com.onrender.com"
 }));
 
+ 
 app.use(express.json());
 
 // Single /contact route

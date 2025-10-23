@@ -105,11 +105,12 @@ const handleSubmit = async (e) => {
 
   try {
     // 3️⃣ Call backend
-    const response = await fetch("https://deepakbisht-com-0e8g.onrender.com/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+  const response = await fetch("https://dkbisht.onrender.com/contact", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(payload),
+});
+
 
     // 4️⃣ Parse result
     const result = await response.json();
