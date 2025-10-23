@@ -67,7 +67,7 @@ transition-colors duration-300 text-white  xl:w-[80%] md:w-full mx-auto" id="hom
           Hi, I’m{" "}
             <span className=" bg-gradient-to-r from-[#4f91f7] to-[#55e0c7]
             text-transparent bg-clip-text">
-              Deepak Singh Bisht
+              Deepak Bisht
             </span>
           </motion.h1>
 

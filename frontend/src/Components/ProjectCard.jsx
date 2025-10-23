@@ -74,14 +74,18 @@ function ProjectCard({ title, desc, link, tech , videoUrl}) {
        </svg>
 
 
-          <video ref={videoRef}  className={`absolute inset-0 w-full h-full object-cover
-          transition-transform duration-500 ${isHovered ? 'opacity-100 scale-105' : 'opacity-0 scale-95'}`}
-          src={videoUrl} muted loop
-          playsInline
-          preload="none"          // 👈 don’t preload
-          poster="/thumbnail.jpg" // 👈 show image before play
-          loading="lazy"          // 👈 try lazy load
-          />
+         <video 
+  ref={videoRef}  
+  className={`absolute inset-0 w-full h-full object-cover
+    transition-transform duration-500 ${isHovered ? 'opacity-100 scale-105' : 'opacity-0 scale-95'}`}
+  src={videoUrl} 
+  muted 
+  loop
+  playsInline
+  preload="none"
+  loading="lazy"
+/>
+
 
    </header>
     <div className="body">

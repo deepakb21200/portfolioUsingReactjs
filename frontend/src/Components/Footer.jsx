@@ -22,6 +22,19 @@ const item = {
     transition: { duration: 0.6, ease: "easeOut" },
   },
 };
+
+
+
+const scrollToSection = (id) => {
+  const element = document.getElementById(id);
+  if (element) {
+    element.scrollIntoView({ behavior: "smooth" });
+  }
+};
+
+
+
+
 function Footer() {
    return (
 <motion.footer
@@ -47,10 +60,25 @@ function Footer() {
     <motion.div variants={item}>
       <h3 className="text-lg   font-semibold mb-3 text-center">Quick Links</h3>
       <ul className="flex flex-col gap-[12px] md:gap-3 md:items-start xl:flex-row justify-center">
-        <li><a href="#home" className="text-gray-400 hover:text-white transition ">Home</a></li>
-        <li><a href="#about" className="text-gray-400 hover:text-white transition">About</a></li>
-        <li><a href="#projects" className="text-gray-400 hover:text-white transition">Projects</a></li>
-        <li><a href="#contact" className="text-gray-400 hover:text-white transition">Contact</a></li>
+        <li>
+          <button  onClick={() => scrollToSection("home")} className="text-gray-400
+           hover:text-white transition" > Home</button>
+           </li>
+
+         <li><button onClick={() => scrollToSection("about")} className="text-gray-400
+            hover:text-white transition" >About</button>
+            </li>
+          <li>
+        <button onClick={() => scrollToSection("projects")}
+        className="text-gray-400 hover:text-white transition">
+          Projects</button>
+        </li>
+        
+        <li><button onClick={() => scrollToSection("contact")} className="text-gray-400
+         hover:text-white transition">Contact
+         </button>
+         </li>
+
       </ul>
     </motion.div>
 
