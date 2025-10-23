@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+html {
+  scroll-behavior: smooth;
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  list-style: none;
+}
+
+ 
+html,body{
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+ 
+
+body {
+  background-color: #05080F; 
+  font-family: 'Poppins', sans-serif;
+    color: #FFFF;
+}
+
+
+
+
+
+
+.star {
+  position: absolute;
+  border-radius: 9999px; /* fully rounded */
+  box-shadow: 0 0 8px 2px rgba(0, 0, 255, 0.4); /* blue glow */
+  animation: pulse-subtle 4s ease-in-out infinite;
+}
+
+@keyframes pulse-subtle {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3; 
+  }
+}
