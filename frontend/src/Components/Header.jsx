@@ -49,7 +49,7 @@ useEffect(() => {
       <div className="deep md:fixed md:top-4 md:left-1/2 md:transform md:-translate-x-1/2 w-full md:w-auto">
         <div className="p-[2px] md:rounded-full bg-gradient-to-r from-amber-300 via-yellow-400 to-orange-400">
        
-          <div className="media-object__thumbnail "></div>
+        
           <nav className="bg-gray-900/90 backdrop-blur-md md:rounded-full px-4 md:px-6 py-2.5">
             {/* Mobile Menu Button */}
             <div className="mobile flex justify-between items-center md:hidden px-2">
