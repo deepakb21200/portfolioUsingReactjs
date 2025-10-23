@@ -159,7 +159,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import fetch from "node-fetch"; // Node <18 me install karo
+ 
 
 dotenv.config();
 const app = express();
@@ -182,6 +182,8 @@ app.post("/contact", async (req, res) => {
   }
 
   try {
+
+
     const payload = {
       service_id: process.env.EMAILJS_SERVICE_ID,
       template_id: process.env.EMAILJS_TEMPLATE_ID,
@@ -194,7 +196,10 @@ app.post("/contact", async (req, res) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
-
+        console.log("Sending email with:", payload);
+   const text = await response.text();
+  console.log("EmailJS Response:, if", text);
+    
     if (response.ok) {
       return res.status(200).json({ success: true, message: "Message sent successfully!" });
     } else {
