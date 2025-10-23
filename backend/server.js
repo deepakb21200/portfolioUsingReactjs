@@ -159,32 +159,54 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import fetch from "node-fetch"; // Node <18 me install karo
 
 dotenv.config();
 const app = express();
 
-// ✅ Global CORS config
+// ✅ CORS middleware
 app.use(cors({
-  origin: "https://deepakbisht-com.onrender.com",
-  methods: ["GET","POST","PUT","DELETE","OPTIONS"],
+  origin: "https://deepakbisht-com.onrender.com", // frontend URL
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type"]
 }));
 
 app.use(express.json());
 
-// Contact endpoint
+// ✅ Contact endpoint
 app.post("/contact", async (req, res) => {
   const { name, email, subject, message } = req.body;
-  if (!name || !email || !message)
-    return res.status(400).json({ success:false, message:"Missing fields" });
+
+  if (!name || !email || !message) {
+    return res.status(400).json({ success: false, message: "Missing required fields" });
+  }
 
   try {
-    // EmailJS payload send logic
-    res.json({ success:true, message:"Message sent!" });
-  } catch(err){
-    res.status(500).json({ success:false, message:"Server error" });
+    const payload = {
+      service_id: process.env.EMAILJS_SERVICE_ID,
+      template_id: process.env.EMAILJS_TEMPLATE_ID,
+      user_id: process.env.EMAILJS_PUBLIC_KEY,
+      template_params: { name, email, subject, message }
+    };
+
+    const response = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    if (response.ok) {
+      return res.status(200).json({ success: true, message: "Message sent successfully!" });
+    } else {
+      const errText = await response.text();
+      console.error("EmailJS error:", errText);
+      return res.status(500).json({ success: false, message: "Failed to send message via EmailJS" });
+    }
+  } catch (err) {
+    console.error("Server error:", err);
+    return res.status(500).json({ success: false, message: "Server error" });
   }
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, ()=> console.log(`Server running on ${PORT}`));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

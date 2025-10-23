@@ -96,7 +96,7 @@ const handleSubmit = async (e) => {
   }
 
   try {
-    const response = await fetch("https://your-backend-url.onrender.com/contact", {
+    const response = await fetch("https://dkbisht.onrender.com/contact", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
