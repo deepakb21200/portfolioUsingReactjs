@@ -123,56 +123,6 @@ const handleSubmit = (e) => {
 
 
 
-
-
-
-
-
-
-
-// const handleSubmit = async (e) => {
-//   e.preventDefault();
-
-//   // 1️⃣ Validate form
-//   if (!validateForm()) {
-//     setStatus("Please fill in all required fields correctly.");
-//     return;
-//   }
-
-//   // 2️⃣ Prepare payload
-//   const payload = {
-//     name: formData.name,
-//     email: formData.email,
-//     subject: formData.subject || "New Contact Form Submission",
-//     message: formData.message,
-//   };
-
-//   try {
-//     // 3️⃣ Call your deployed backend/serverless function
-//     const response = await fetch("/api/contact", {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify(payload),
-//     });
-
-//     // 4️⃣ Parse result
-//     const result = await response.json();
-//     console.log(result);
-
-//     // 5️⃣ Check response status
-//     if (response.ok) {
-//       setStatus("✅ Message sent successfully!");
-//       setFormData({ name: "", email: "", subject: "", message: "" });
-//       setErrors({});
-//     } else {
-//       setStatus(result.message || "❌ There was an error sending your message.");
-//     }
-//   } catch (error) {
-//     // 6️⃣ Network or unexpected errors
-//     console.error("Error sending message:", error);
-//     setStatus("⚠️ An error occurred. Please try again later.");
-//   }
-// };
   return (
        <section className="dk hero min-h-screen flex items-center relative " id="contact">
       <div className=" w-full">
