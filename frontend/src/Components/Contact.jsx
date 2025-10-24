@@ -96,15 +96,15 @@ const handleSubmit = (e) => {
   }
 
   emailjs.send(
-    'service_ph644lo',
-    'template_u61ftdt',
+  import.meta.env.VITE_EMAILJS_SERVICE_ID,
+  import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
     {
       name: formData.name,
       email: formData.email,
       subject: formData.subject || "New Contact Form Submission",
       message: formData.message,
     },
-    '8TNG3i0tCyTFgmiTV' // frontend public key
+     import.meta.env.VITE_EMAILJS_PUBLIC_KEY
   )
   .then(
     (result) => {
