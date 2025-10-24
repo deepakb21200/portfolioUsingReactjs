@@ -28,7 +28,7 @@ export const projects = [
     videoUrl: "/videos/movie.mp4",
   },
   {
-    title: "E-Commerce App",
+     title: "E-Commerce App (Currently Ongoing)",
     desc: "A complete MERN stack e-commerce application featuring product CRUD operations, user authentication, and cart management using JWT and bcrypt. Built with responsive UI and secure backend integration.",
     link: "https://github.com/deepakb21200/simple_project",
     tech: ["React.js", "Node.js", "Express.js", "MongoDB", "Tailwind CSS"],
