@@ -157,7 +157,7 @@ export function About() {
     { name: "Node.js", icon: <FaNodeJs className="w-4 h-4 text-[#339933]" /> },
     { name: "Express.js", icon: <SiExpress className="w-4 h-4 text-[#000000]" /> },
     { name: "MongoDB", icon: <SiMongodb className="w-4 h-4 text-[#47A248]" /> },
-    { name: "REST APIs", icon: <BsGrid1X2 className="w-4 h-4 text-[#FF6C37]" /> },
+    { name: "RESTful APIs", icon: <BsGrid1X2 className="w-4 h-4 text-[#FF6C37]" /> },
     { name: "Redux", icon: <SiRedux className="w-4 h-4 text-[#764ABC]" /> },
     { name: "Git/GitHub", icon: <FaGitAlt className="w-4 h-4 text-[#F05032]" /> },
     { name: "VS Code", icon: <TbBrandVscode className="w-4 h-4 text-[#007ACC]" /> },
