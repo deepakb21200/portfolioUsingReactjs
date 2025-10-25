@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 import lottieFile from "../assets/Technology.json";
 import AnimationLottie from "../helper/Animation_Lottie";
 import { FiLayers } from "react-icons/fi";
- import RenderLogo from "./assets/RenderBlack.svg";
+ import RenderLogo from "../assets/RenderBlack.svg";
  
 const fadeInRight = {
   hidden: { opacity: 0, x: 50 },
@@ -180,7 +180,7 @@ export function About() {
     { name: "VS Code", icon: <TbBrandVscode className="w-4 h-4 text-[#007ACC]" /> },
     // { name: "Vercel", icon: <SiVercel className="w-4 h-4 text-white" /> },
   { name: "Render", icon: <img src={RenderLogo} alt="Render" className="w-4 h-4" /> },
-    { name: "Postman", icon: <SiPostman className="w-4 h-4 text-[#FF6C37]" /> },
+    { name: "Postman", icon: <SiPostman className="w-4 h-4 text-[#e1b9ab]" /> },
   ];
 
 
