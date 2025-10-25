@@ -1,11 +1,5 @@
 export const projects = [
-  {
-    title: "To-Do App",
-    desc: "A task management application that enables users to add, edit, and delete tasks efficiently. Implemented localStorage to persist data, ensuring tasks remain saved even after page refresh.",
-    link: "https://github.com/deepakb21200/todo-list-react",
-    tech: ["React.js", "CSS3", "LocalStorage"],
-    videoUrl: "/videos/todo.mp4",
-  },
+
   {
     title: "Product Cart App",
     desc: "An interactive shopping cart that allows users to fetch products from an API, filter items, and manage their cart using Redux. Integrated localStorage to persist cart data and quantities.",
