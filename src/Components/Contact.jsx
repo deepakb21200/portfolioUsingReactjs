@@ -115,6 +115,7 @@ const handleSubmit = (e) => {
     },
     (error) => {
       console.error(error.text);
+          console.error(error.message);
       setStatus("Failed to send message. Please try again.");
     }
   );

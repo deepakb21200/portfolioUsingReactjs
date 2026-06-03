@@ -52,7 +52,7 @@ function Footer() {
     <motion.div className="mb-4 md:mb-0" variants={item}>
       <h2 className="text-xl  font-bold mb-2 text-center">Deepak Bisht</h2>
       <p className="text-sm md:text-base text-gray-400">
-        Frontend Developer & MERN Enthusiast
+        Frontend Developer
       </p>
     </motion.div>
 
